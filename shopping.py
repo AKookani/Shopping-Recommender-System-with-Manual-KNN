@@ -7,16 +7,19 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import confusion_matrix
 
 TEST_SIZE = 0.4
+DEFAULT_FILE_NAME = 'shopping.csv'
 
 
 def main():
 
     # Check command-line arguments
-    if len(sys.argv) != 2:
-        sys.exit("Usage: python shopping.py data")
+    if len(sys.argv) == 2:
+        filename = sys.argv[1]
+    else:
+        filename = DEFAULT_FILE_NAME
 
     # Load data from spreadsheet and split into train and test sets
-    evidence, labels = load_data(sys.argv[1])
+    evidence, labels = load_data(filename)
     X_train, X_test, y_train, y_test = train_test_split(
         evidence, labels, test_size=TEST_SIZE
     )
@@ -103,7 +106,6 @@ def train_model(evidence, labels):
     model.fit(evidence, labels)
 
     return model
-
 
 
 def evaluate(labels, predictions):
